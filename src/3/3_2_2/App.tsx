@@ -5,71 +5,51 @@
 
 
 import { useState } from 'react';
-import AddItem from './AddItem.js';
-import PackingList from './PackingList.js';
+import AddItem from './AddItem';
+import PackingList from './PackingList';
 
 export type Item = {
-  id: number,
-  title: string,
-  packed: boolean
-}
+  id: number;
+  title: string;
+  packed: boolean;
+};
 
 let nextId = 3;
-const initialItems = [
+const initialItems: Item[] = [
   { id: 0, title: 'Warm socks', packed: true },
   { id: 1, title: 'Travel journal', packed: false },
   { id: 2, title: 'Watercolors', packed: false },
 ];
 
 export default function TravelPlan() {
-  const [items, setItems] = useState(initialItems);
-  const [total, setTotal] = useState(3);
-  const [packed, setPacked] = useState(1);
+  const [items, setItems] = useState<Item[]>(initialItems);
 
   function handleAddItem(title: string) {
-    setTotal(total + 1);
     setItems([
       ...items,
       {
         id: nextId++,
         title: title,
-        packed: false
-      }
+        packed: false,
+      },
     ]);
   }
 
   function handleChangeItem(nextItem: Item) {
-    if (nextItem.packed) {
-      setPacked(packed + 1);
-    } else {
-      setPacked(packed - 1);
-    }
-    setItems(items.map(item => {
-      if (item.id === nextItem.id) {
-        return nextItem;
-      } else {
-        return item;
-      }
-    }));
+    setItems(items.map(item => (item.id === nextItem.id ? nextItem : item)));
   }
 
   function handleDeleteItem(itemId: number) {
-    setTotal(total - 1);
-    setItems(
-      items.filter(item => item.id !== itemId)
-    );
+    setItems(items.filter(item => item.id !== itemId));
   }
+
+  const total = items.length;
+  const packed = items.filter(item => item.packed).length;
 
   return (
     <>  
-      <AddItem
-        onAddItem={handleAddItem}
-      />
-      <PackingList
-        items={items}
-        onChangeItem={handleChangeItem}
-        onDeleteItem={handleDeleteItem}
-      />
+      <AddItem onAddItem={handleAddItem} />
+      <PackingList items={items} onChangeItem={handleChangeItem} onDeleteItem={handleDeleteItem} />
       <hr />
       <b>{packed} out of {total} packed!</b>
     </>
