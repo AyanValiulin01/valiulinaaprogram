@@ -18,8 +18,7 @@ export default function Timer() {
     return () => {
       clearInterval(id);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [increment]); // Добавляем increment в зависимости
 
   return (
     <>
@@ -30,13 +29,9 @@ export default function Timer() {
       <hr />
       <p>
         Every second, increment by:
-        <button disabled={increment === 0} onClick={() => {
-          setIncrement(i => i - 1);
-        }}>–</button>
+        <button disabled={increment === 0} onClick={() => setIncrement(i => i - 1)}>–</button>
         <b>{increment}</b>
-        <button onClick={() => {
-          setIncrement(i => i + 1);
-        }}>+</button>
+        <button onClick={() => setIncrement(i => i + 1)}>+</button>
       </p>
     </>
   );
