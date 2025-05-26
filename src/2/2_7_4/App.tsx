@@ -1,10 +1,7 @@
-// 2_7_4 Fix the mutations using Immer  
+
 /*
     В этом примере все обработчики событий в App.js используют мутацию. В результате редактирование и удаление todos не работает. Перепишите handleAddTodo, handleChangeTodo и handleDeleteTodo с помощью Immer
-*/
-
-import { useState } from 'react';
-import { useImmer } from 'use-immer';
+*/import { useImmer } from 'use-immer';
 import AddTodo from './AddTodo';
 import TaskList from './TaskList';
 
@@ -15,36 +12,35 @@ export type Todo = {
 }
 
 let nextId = 3;
-const initialTodos = [
+const initialTodos: Todo[] = [
     { id: 0, title: 'Buy milk', done: true },
     { id: 1, title: 'Eat tacos', done: false },
     { id: 2, title: 'Brew tea', done: false },
 ];
 
 export default function TaskApp() {
-    const [todos, setTodos] = useState(initialTodos);
+    const [todos, setTodos] = useImmer(initialTodos);
 
     function handleAddTodo(title: string) {
-        todos.push({
-            id: nextId++,
-            title: title,
-            done: false,
+        setTodos(draft => {
+            draft.push({ id: nextId++, title, done: false }); // ✅ Используем Immer для добавления нового todo
         });
     }
 
     function handleChangeTodo(nextTodo: Todo) {
-        const todo = todos.find(
-            (t) => t.id === nextTodo.id
-        )!!;
-        todo.title = nextTodo.title;
-        todo.done = nextTodo.done;
+        setTodos(draft => {
+            const todo = draft.find(t => t.id === nextTodo.id);
+            if (todo) {
+                todo.title = nextTodo.title;
+                todo.done = nextTodo.done;
+            }
+        });
     }
 
     function handleDeleteTodo(todoId: number) {
-        const index = todos.findIndex(
-            (t) => t.id === todoId
-        );
-        todos.splice(index, 1);
+        setTodos(draft => {
+            return draft.filter(todo => todo.id !== todoId); // ✅ Удаляем todo через `filter`
+        });
     }
 
     return (
