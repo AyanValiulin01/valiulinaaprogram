@@ -1,10 +1,3 @@
-import { Person } from "./App";
-
-export function getImageUrl(person: Person, size: string) {
-    return (
-      'http://localhost:5173/' +
-      person.imageId +
-      size +
-      '.jpg'
-    );
-  }
+export function getImageUrl(imageId: string, size: string) {
+  return `http://localhost:5173/${imageId}${size}.jpg`;
+}
