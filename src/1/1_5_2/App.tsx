@@ -1,10 +1,6 @@
-// 1_5_2 Adjust the image size based on a prop 
-/*
-  В этом примере Avatar получает числовой параметр size, который определяет ширину и высоту <img>. В данном примере параметр size установлен на 40. Однако если вы откроете изображение в новой вкладке, вы заметите, что само изображение больше (160 пикселей). Реальный размер изображения определяется тем, какой размер миниатюры вы запрашиваете.
+// В этом примере Avatar получает числовой параметр size, который определяет ширину и высоту <img>. В данном примере параметр size установлен на 40. Однако если вы откроете изображение в новой вкладке, вы заметите, что само изображение больше (160 пикселей). Реальный размер изображения определяется тем, какой размер миниатюры вы запрашиваете.
 
   Измените компонент Avatar, чтобы он запрашивал наиболее близкий размер изображения на основе параметра size. В частности, если size меньше 90, передавайте 's' ("small"), а не 'b' ("big") в функцию getImageUrl. Проверьте, что ваши изменения работают, отобразив аватары с разными значениями параметра size и открыв изображения в новой вкладке.
-*/
-
 import { getImageUrl } from "./util";
 
 export type Person = {
@@ -13,10 +9,12 @@ export type Person = {
 };
 
 function Avatar({ person, size }: { person: Person; size: number }) {
+  const imageSize = size < 90 ? "s" : "b"; // Если size < 90, используем "s", иначе "b"
+
   return (
     <img
       className="avatar"
-      src={getImageUrl(person, "b")}
+      src={getImageUrl(person.imageId, imageSize)} // Передаём imageId и imageSize
       alt={person.name}
       width={size}
       height={size}
@@ -26,12 +24,21 @@ function Avatar({ person, size }: { person: Person; size: number }) {
 
 export default function Profile() {
   return (
-    <Avatar
-      size={40}
-      person={{
-        name: "Gregorio Y. Zara",
-        imageId: "GregorioYZara",
-      }}
-    />
+    <div>
+      <Avatar
+        size={40} // Маленький аватар (должно использовать "s")
+        person={{
+          name: "Gregorio Y. Zara",
+          imageId: "GregorioYZara",
+        }}
+      />
+      <Avatar
+        size={100} // Большой аватар (должно использовать "b")
+        person={{
+          name: "Albert Einstein",
+          imageId: "AlbertEinstein",
+        }}
+      />
+    </div>
   );
 }
