@@ -1,9 +1,6 @@
-// 2_7_3 Fix the mutations using non-mutative methods  
 /*
     В этом примере все обработчики событий в App.js используют мутацию. В результате редактирование и удаление todos не работает. Перепишите handleAddTodo, handleChangeTodo и handleDeleteTodo, чтобы они использовали немутационные методы:
-*/
-
-import { useState } from 'react';
+*/import { useState } from 'react';
 import AddTodo from './AddTodo';
 import TaskList from './TaskList';
 
@@ -11,7 +8,7 @@ export type Todo = {
     id: number;
     title: string;
     done: boolean;
-}
+};
 
 let nextId = 3;
 const initialTodos = [
@@ -24,26 +21,15 @@ export default function TaskApp() {
     const [todos, setTodos] = useState(initialTodos);
 
     function handleAddTodo(title: string) {
-        todos.push({
-            id: nextId++,
-            title: title,
-            done: false,
-        });
+        setTodos([...todos, { id: nextId++, title, done: false }]); // ✅ Добавляем новый todo (немутирующий способ)
     }
 
     function handleChangeTodo(nextTodo: Todo) {
-        const todo = todos.find(
-            (t) => t.id === nextTodo.id
-        )!!;
-        todo.title = nextTodo.title;
-        todo.done = nextTodo.done;
+        setTodos(todos.map(todo => todo.id === nextTodo.id ? nextTodo : todo)); // ✅ Обновляем нужный todo (немутирующий способ)
     }
 
     function handleDeleteTodo(todoId: number) {
-        const index = todos.findIndex(
-            (t) => t.id === todoId
-        );
-        todos.splice(index, 1);
+        setTodos(todos.filter(todo => todo.id !== todoId)); // ✅ Удаляем нужный todo (немутирующий способ)
     }
 
     return (
