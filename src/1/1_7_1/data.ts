@@ -1,3 +1,7 @@
+export type Person = {
+    name: string;
+    imageId: string;
+  };
 export const people = [
     {
         id: 0,
