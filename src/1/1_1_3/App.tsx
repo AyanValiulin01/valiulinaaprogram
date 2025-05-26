@@ -1,26 +1,20 @@
-// 1_1_3 Spot the mistake
-/* 
-  Исправьте ошибку в компоненте Profile.
-  Вспомните, как react отличает компоненты от обычных HTML-тегов.
-*/
-
-function profile() {
-    return (
+// Исправьте ошибку в компоненте Profile.
+function Profile() {  // Название с заглавной буквы
+  return (
       <img
-        src="AlanHart.jpg"
-        alt="Alan L. Hart"
+          src="AlanHart.jpg"
+          alt="Alan L. Hart"
       />
-    );
-  }
-  
-  export default function Gallery() {
-    return (
+  );
+}
+
+export default function Gallery() {
+  return (
       <section>
-        <h1>Amazing scientists</h1>
-        <profile />
-        <profile />
-        <profile />
+          <h1>Amazing scientists</h1>
+          <Profile /> {/* Используем с заглавной буквы */}
+          <Profile />
+          <Profile />
       </section>
-    );
-  }
-  
+  );
+}
