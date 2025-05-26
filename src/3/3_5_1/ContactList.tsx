@@ -2,14 +2,12 @@ import { Contact } from "./App";
 import { Action } from "./messengerReducer";
 
 export default function ContactList(
+    { contacts, selectedId, dispatch }:
     {
-        contacts, selectedId, dispatch
-    }:
-        {
-            contacts: Contact[],
-            selectedId: number,
-            dispatch: (action: Action) => void
-        }
+        contacts: Contact[],
+        selectedId: number,
+        dispatch: (action: Action) => void
+    }
 ) {
     return (
         <section className="contact-list">
@@ -18,7 +16,10 @@ export default function ContactList(
                     <li key={contact.id}>
                         <button
                             onClick={() => {
-                                // TODO: dispatch changed_selection
+                                dispatch({ 
+                                    type: 'changed_selection', 
+                                    contactId: contact.id 
+                                });
                             }}>
                             {selectedId === contact.id ? <b>{contact.name}</b> : contact.name}
                         </button>
