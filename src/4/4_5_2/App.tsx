@@ -1,3 +1,4 @@
+
 // 4_5_2 Switch synchronization on and off 
 /*
   В этом примере Эффект подписывается на событие window pointermove, чтобы переместить розовую точку на экране. Попробуйте навести курсор на область предварительного просмотра (или коснуться экрана, если вы пользуетесь мобильным устройством) и посмотрите, как розовая точка следует за вашим движением.
@@ -12,19 +13,23 @@ export default function App() {
   const [canMove, setCanMove] = useState(true);
 
   useEffect(() => {
-    function handleMove(e) {
+    if (!canMove) return; // Если canMove === false, не добавляем обработчик
+
+    function handleMove(e: PointerEvent) {
       setPosition({ x: e.clientX, y: e.clientY });
     }
+
     window.addEventListener('pointermove', handleMove);
     return () => window.removeEventListener('pointermove', handleMove);
-  }, []);
+  }, [canMove]); // useEffect перезапускается при изменении canMove
 
   return (
     <>
       <label>
-        <input type="checkbox"
+        <input 
+          type="checkbox"
           checked={canMove}
-          onChange={e => setCanMove(e.target.checked)} 
+          onChange={e => setCanMove(e.target.checked)}
         />
         The dot is allowed to move
       </label>
