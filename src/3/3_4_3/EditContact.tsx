@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Contact } from './App';
 
-export default function EditContact(
-    { initialData, onSave }:{
-      initialData: Contact;
-      onSave: (data: Contact) => void;
-    }
-) {
+export default function EditContact({
+  initialData,
+  onSave
+}: {
+  initialData: Contact;
+  onSave: (data: Contact) => void;
+}) {
   const [name, setName] = useState(initialData.name);
   const [email, setEmail] = useState(initialData.email);
+
+  // Обновляем поля при смене initialData
+  useEffect(() => {
+    setName(initialData.name);
+    setEmail(initialData.email);
+  }, [initialData]);
+
   return (
     <section>
       <label>
@@ -30,8 +38,8 @@ export default function EditContact(
       <button onClick={() => {
         const updatedData = {
           id: initialData.id,
-          name: name,
-          email: email
+          name,
+          email
         };
         onSave(updatedData);
       }}>
