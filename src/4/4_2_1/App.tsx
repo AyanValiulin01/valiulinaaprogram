@@ -9,10 +9,19 @@ import { useState, useRef } from 'react';
 
 export default function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null); // Реф для видео
 
   function handleClick() {
     const nextIsPlaying = !isPlaying;
     setIsPlaying(nextIsPlaying);
+
+    if (videoRef.current) {
+      if (nextIsPlaying) {
+        videoRef.current.play(); // Запуск видео
+      } else {
+        videoRef.current.pause(); // Пауза
+      }
+    }
   }
 
   return (
@@ -20,12 +29,15 @@ export default function VideoPlayer() {
       <button onClick={handleClick}>
         {isPlaying ? 'Pause' : 'Play'}
       </button>
-      <video width="250">
-        <source
-          src="flower.mp4"
-          type="video/mp4"
-        />
+      <video
+        ref={videoRef} // Привязываем ref
+        width="250"
+        onPlay={() => setIsPlaying(true)} // Следим за ручным запуском
+        onPause={() => setIsPlaying(false)} // Следим за ручной паузой
+        controls
+      >
+        <source src="flower.mp4" type="video/mp4" />
       </video>
     </>
-  )
+  );
 }
