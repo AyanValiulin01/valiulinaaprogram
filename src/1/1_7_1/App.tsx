@@ -1,39 +1,38 @@
-// 1_7_1 Splitting a list in two 
-/*
-  В этом примере показан список всех людей.
-
-  Измените его, чтобы последовательно вывести два отдельных списка: Химики и Все остальные. Как и ранее, вы можете определить, является ли человек химиком, проверив, что person.profession === 'chemist'.
-*/
-
-import { people } from './data.js';
-import { getImageUrl } from './utils.js';
-
-export type Person = {
-  id: number;
-  name: string;
-  profession: string;
-  accomplishment: string;
-  imageId: string;
-}
-
-export default function List() {
-    const listItems = people.map((person) => (
-        <li key={person.id}>
-            <img
-                src={getImageUrl(person)}
-                alt={person.name}
-            />
-            <p>
-                <b>{person.name}:</b>
-                {' ' + person.profession + ' '}
-                known for {person.accomplishment}
-            </p>
-        </li>
-    ));
+//Этот компонент Drink использует серию ? : условий для отображения различной информации в зависимости от того, является ли name пропс "чай" или "кофе". Проблема в том, что информация о каждом напитке распределена по нескольким условиям. Переработайте этот код, чтобы использовать один оператор if вместо трех ? : условий.
+function Drink({ name }: { name: string }) {
+    let partOfPlant, caffeineContent, age;
+  
+    if (name === 'tea') {
+      partOfPlant = 'leaf';
+      caffeineContent = '15–70 mg/cup';
+      age = '4,000+ years';
+    } else {
+      partOfPlant = 'bean';
+      caffeineContent = '80–185 mg/cup';
+      age = '1,000+ years';
+    }
+  
     return (
-        <article>
-            <h1>Scientists</h1>
-            <ul>{listItems}</ul>
-        </article>
+      <section>
+        <h1>{name}</h1>
+        <dl>
+          <dt>Part of plant</dt>
+          <dd>{partOfPlant}</dd>
+          <dt>Caffeine content</dt>
+          <dd>{caffeineContent}</dd>
+          <dt>Age</dt>
+          <dd>{age}</dd>
+        </dl>
+      </section>
     );
-}
+  }
+  
+  export default function DrinkList() {
+    return (
+      <div>
+        <Drink name="tea" />
+        <Drink name="coffee" />
+      </div>
+    );
+  }
+  
