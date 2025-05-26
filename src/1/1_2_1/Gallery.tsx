@@ -1,21 +1,12 @@
-// Move me to Profile.tsx!
-export function Profile() {
+import { Profile } from "./Profile";  // Импортируем именованный экспорт
+
+export default function Gallery() {
     return (
-      <img
-        src="AlanHart.jpg"
-        alt="Alan L. Hart"
-      />
+        <section>
+            <h1>Amazing scientists</h1>
+            <Profile />
+            <Profile />
+            <Profile />
+        </section>
     );
-  }
-  
-  export default function Gallery() {
-    return (
-      <section>
-        <h1>Amazing scientists</h1>
-        <Profile />
-        <Profile />
-        <Profile />
-      </section>
-    );
-  }
-  
+}
