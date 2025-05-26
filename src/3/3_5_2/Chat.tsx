@@ -20,11 +20,16 @@ export default function Chat(
             dispatch({
                 type: 'edited_message',
                 message: e.target.value,
-              });
+            });
         }}
       />
       <br />
-      <button>Send to {contact.email}</button>
+      <button onClick={() => {
+        alert(`Message sent to ${contact.email}:\n${message}`);  // Показываем alert
+        dispatch({ type: 'sent_message', message: '' });  //  Отправляем action на очистку
+      }}>
+        Send to {contact.email}
+      </button>
     </section>
   );
 }
