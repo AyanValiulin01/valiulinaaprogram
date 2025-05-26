@@ -1,3 +1,4 @@
+
 // 1_2_1 Split the components further
 /* 
 В настоящее время Gallery.js экспортирует и Profile и Gallery, что немного запутывает.
@@ -8,14 +9,14 @@
 
 */
 
-import Gallery, { Profile } from "./Gallery";
-
-// Move me to Profile.js!
+import { Profile } from "./Profile";  // Импортируем именованный экспорт
+import Gallery from "./Gallery";
 
 export default function App() {
-  return (
-    <div>
-      <Profile />      
-    </div>
-  );
+    return (
+        <div>
+            <Profile />
+            <Gallery />
+        </div>
+    );
 }
