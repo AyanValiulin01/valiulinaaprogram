@@ -10,12 +10,22 @@
 */
 
 import { usePointerPosition } from './usePointerPosition.ts';
+import { useState, useEffect } from 'react';
 
 type Position = { x: number, y: number };
 
 function useDelayedValue(value: Position, delay: number) {
-  // TODO: Implement this Hook
-  return value;
+  const [delayedValue, setDelayedValue] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDelayedValue(value);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return delayedValue;
 }
 
 export default function Canvas() {
@@ -24,6 +34,7 @@ export default function Canvas() {
   const pos3 = useDelayedValue(pos2, 200);
   const pos4 = useDelayedValue(pos3, 100);
   const pos5 = useDelayedValue(pos3, 50);
+
   return (
     <>
       <Dot position={pos1} opacity={1} />
@@ -35,10 +46,7 @@ export default function Canvas() {
   );
 }
 
-function Dot(
-  { position, opacity }:
-    { position: Position, opacity: number }
-) {
+function Dot({ position, opacity }: { position: Position, opacity: number }) {
   return (
     <div style={{
       position: 'absolute',
@@ -54,4 +62,3 @@ function Dot(
     }} />
   );
 }
-
