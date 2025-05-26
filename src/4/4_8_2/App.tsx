@@ -8,7 +8,8 @@ import { useCounter } from './useCounter.ts';
 
 export default function Counter() {
   const [delay, setDelay] = useState(1000);
-  const count = useCounter();
+  const count = useCounter(delay); // Передаем delay в useCounter
+
   return (
     <>
       <label>
@@ -27,4 +28,3 @@ export default function Counter() {
     </>
   );
 }
-
